@@ -7,9 +7,10 @@ public class Controller {
 	public void process() {
 		System.out.println("Start process");
 
-		//TODO implement Error handling
-
 		//TODO load the news based on the parameters
+		//test
+
+		//TODO implement Error handling
 
 		//TODO implement methods for analysis
 
