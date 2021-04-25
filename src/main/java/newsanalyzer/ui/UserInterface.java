@@ -4,8 +4,14 @@ package newsanalyzer.ui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Scanner;
 
 import newsanalyzer.ctrl.Controller;
+import newsapi.NewsApi;
+import newsapi.NewsApiBuilder;
+import newsapi.enums.Country;
+import newsapi.enums.Endpoint;
+import newsapi.enums.Language;
 
 public class UserInterface 
 {
@@ -13,30 +19,66 @@ public class UserInterface
 	private Controller ctrl = new Controller();
 
 	public void getDataFromCtrl1(){
-		System.out.println("ABC");
+		NewsApi newsApi = new NewsApiBuilder()
+                .setApiKey("0038b5ccc1124e94b01d19b0d5982697")
+				.setQ("österreich: corona")
+				.setEndPoint(Endpoint.TOP_HEADLINES)
+				.setFrom("2021-04-20")
+				.setSourceCountry(Country.at)
+				.setLanguage(Language.de)
+				.createNewsApi();
 
-		ctrl.process();
+		ctrl.process(newsApi);
 	}
 
 	public void getDataFromCtrl2(){
+		NewsApi newsApi = new NewsApiBuilder()
+				.setApiKey("0038b5ccc1124e94b01d19b0d5982697")
+				.setQ("motogp")
+				.setEndPoint(Endpoint.EVERYTHING)
+				.setFrom("2021-04-20")
+				.setLanguage(Language.en)
+				.createNewsApi();
+
+		ctrl.process(newsApi);
 	}
 
 	public void getDataFromCtrl3(){
+		NewsApi newsApi = new NewsApiBuilder()
+				.setApiKey("0038b5ccc1124e94b01d19b0d5982697")
+				.setQ("zoo")
+				.setEndPoint(Endpoint.EVERYTHING)
+				.setFrom("2021-04-20")
+				.setExcludeDomains("Lifehacker.com")
+				.createNewsApi();
 
+		ctrl.process(newsApi);
 	}
 	
 	public void getDataForCustomInput() {
-		
+		String eing;
+		Scanner scan = new Scanner(System.in);
+		System.out.println("suchbegriff: ");
+		eing = scan.nextLine();
+		NewsApi newsApi = new NewsApiBuilder()
+				.setApiKey("0038b5ccc1124e94b01d19b0d5982697")
+				.setQ(eing)
+				.setEndPoint(Endpoint.EVERYTHING)
+				.setFrom("2021-04-20")
+				.setExcludeDomains("Lifehacker.com")
+				.createNewsApi();
+
+		ctrl.process(newsApi);
 	}
 
 
 	public void start() {
-		Menu<Runnable> menu = new Menu<>("User Interfacx");
+		Menu<Runnable> menu = new Menu<>("User Interface");
 		menu.setTitel("Wählen Sie aus:");
-		menu.insert("a", "Choice ABC", this::getDataFromCtrl1);
-		menu.insert("b", "Choice DEF", this::getDataFromCtrl2);
-		menu.insert("c", "Choice 3", this::getDataFromCtrl3);
-		menu.insert("d", "Choice User Imput:",this::getDataForCustomInput);
+		menu.insert("a", "last news: corona", this::getDataFromCtrl1);
+		menu.insert("b", "last news: motogp", this::getDataFromCtrl2);
+		menu.insert("c", "last news: zoo", this::getDataFromCtrl3);
+		menu.insert("d", "Choice User Input:",this::getDataForCustomInput);
 		menu.insert("q", "Quit", null);
 		Runnable choice;
 		while ((choice = menu.exec()) != null) {
