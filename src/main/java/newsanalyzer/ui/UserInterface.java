@@ -5,17 +5,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
-
 import newsanalyzer.ctrl.Controller;
 import newsapi.NewsApi;
 import newsapi.NewsApiBuilder;
+import newsapi.NewsApiException;
 import newsapi.enums.Country;
 import newsapi.enums.Endpoint;
 import newsapi.enums.Language;
 
 public class UserInterface 
 {
-
 	private Controller ctrl = new Controller();
 
 	public void getDataFromCtrl1(){
@@ -27,8 +26,12 @@ public class UserInterface
 				.setSourceCountry(Country.at)
 				.setLanguage(Language.de)
 				.createNewsApi();
-
-		ctrl.process(newsApi);
+		try {
+			ctrl.process(newsApi);
+		} catch (NewsApiException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	public void getDataFromCtrl2(){
@@ -39,8 +42,12 @@ public class UserInterface
 				.setFrom("2021-04-20")
 				.setLanguage(Language.en)
 				.createNewsApi();
-
-		ctrl.process(newsApi);
+		try {
+			ctrl.process(newsApi);
+		} catch (NewsApiException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	public void getDataFromCtrl3(){
@@ -51,10 +58,14 @@ public class UserInterface
 				.setFrom("2021-04-20")
 				.setExcludeDomains("Lifehacker.com")
 				.createNewsApi();
-
-		ctrl.process(newsApi);
+		try {
+			ctrl.process(newsApi);
+		} catch (NewsApiException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 	}
-	
+
 	public void getDataForCustomInput() {
 		String eing;
 		Scanner scan = new Scanner(System.in);
@@ -67,10 +78,13 @@ public class UserInterface
 				.setFrom("2021-04-20")
 				.setExcludeDomains("Lifehacker.com")
 				.createNewsApi();
-
-		ctrl.process(newsApi);
+		try {
+			ctrl.process(newsApi);
+		} catch (NewsApiException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 	}
-
 
 	public void start() {
 		Menu<Runnable> menu = new Menu<>("User Interface");
@@ -86,7 +100,6 @@ public class UserInterface
 		}
 		System.out.println("Program finished");
 	}
-
 
     protected String readLine() {
 		String value = "\0";

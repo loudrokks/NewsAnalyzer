@@ -104,7 +104,7 @@ public class NewsApi {
         this.endpoint = endpoint;
     }
 
-    protected String requestData() {
+    protected String requestData() throws NewsApiException {
         String url = buildURL();
         System.out.println("URL: "+url);
         URL obj = null;
@@ -112,7 +112,8 @@ public class NewsApi {
             obj = new URL(url);
         } catch (MalformedURLException e) {
             // TOOO improve ErrorHandling
-            e.printStackTrace();
+            throw new NewsApiException("ungültige url");
+            //e.printStackTrace();
         }
         HttpURLConnection con;
         StringBuilder response = new StringBuilder();
@@ -126,7 +127,8 @@ public class NewsApi {
             in.close();
         } catch (IOException e) {
             // TOOO improve ErrorHandling
-            System.out.println("Error "+e.getMessage());
+            throw new NewsApiException("ungültige httpurl");
+            //System.out.println("Error "+e.getMessage());
         }
         return response.toString();
     }
@@ -172,7 +174,7 @@ public class NewsApi {
         return sb.toString();
     }
 
-    public NewsReponse getNews() {
+    public NewsReponse getNews() throws NewsApiException {
         NewsReponse newsReponse = null;
         String jsonResponse = requestData();
         if(jsonResponse != null && !jsonResponse.isEmpty()){
